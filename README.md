@@ -5,6 +5,7 @@ Welcome to the FFL Dashboard. This provides fantasy football analytics to intere
 ## Helpful Git/Terminal commands
 
 `git clone <url> .` — Clone the repo into your current directory
+`git add .` — Use this to stage files that are newly created
 `git commit -am "<message>"` — Commit all staged files
 `git push` — push all commits to the remote branch
 `git pull` — pull all commits from the remote branch
