@@ -9,6 +9,7 @@
 
 library(shiny)
 
+players <- data.frame(read.csv("./player_rankings.csv", header = TRUE))
 # Define UI for application that draws a histogram
 
 ui <- fluidPage(
