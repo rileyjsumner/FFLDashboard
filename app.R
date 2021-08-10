@@ -8,23 +8,29 @@
 #
 
 library(shiny)
+library(tidyverse)
+library(dplyr)
 
 players <- data.frame(read.csv("./player_rankings.csv", header = TRUE))
+players.qb <- data.frame(filter(players, Position == "QB"))
+players.rb <- data.frame(filter(players, Position == "RB"))
+
+
 # Define UI for application that draws a histogram
 
 ui <- fluidPage(
   
   titlePanel("RESE Draft Board - 2021"), 
-  selectInput("QB1", "Quarterbacks", c(players$Name, ""), ""),
-  selectInput("QB2", NULL, c(players$Name), ""),
-  selectInput("QB3", NULL, c(players$Name), ""),
-  selectInput("QB4", NULL, c(players$Name), ),
-  selectInput("RB1", "Running Backs", c(players$Name)),
-  selectInput("RB2", NULL, c(players$Name)),
-  selectInput("RB2", NULL, c(players$Name)),
-  selectInput("RB3", NULL, c(players$Name)),
-  selectInput("RB4", NULL, c(players$Name)),
-  selectInput("RB5", NULL, c(players$Name)),
+  selectInput("QB1", "Quarterbacks", c(players.qb$Name, ""), ""),
+  selectInput("QB2", NULL, c(players.qb$Name, ""), ""),
+  selectInput("QB3", NULL, c(players.qb$Name, ""), ""),
+  selectInput("QB4", NULL, c(players.qb$Name, ""), ""),
+  selectInput("RB1", "Running Backs", c(players.rb$Name, ""), ""),
+  selectInput("RB2", NULL, c(players.rb$Name, ""), ""),
+  selectInput("RB2", NULL, c(players.rb$Name, ""), ""),
+  selectInput("RB3", NULL, c(players.rb$Name, ""), ""),
+  selectInput("RB4", NULL, c(players.rb$Name, ""), ""),
+  selectInput("RB5", NULL, c(players.rb$Name, ""), ""),
 )
 
 
