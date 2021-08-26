@@ -1,0 +1,13 @@
+team_id,team_name,team_manager,is_user
+1,team_a,manager_a,TRUE
+2,team_b,manager_b,FALSE
+3,team_c,manager_c,FALSE
+4,team_d,manager_d,FALSE
+5,team_e,manager_e,FALSE
+6,team_f,manager_f,FALSE
+7,team_g,manager_g,FALSE
+8,team_h,manager_h,FALSE
+9,team_i,manager_i,FALSE
+10,team_j,manager_j,FALSE
+11,team_k,manager_k,FALSE
+12,team_l,manager_l,FALSE
