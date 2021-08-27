@@ -31,28 +31,36 @@ ui <- fluidPage(
 
 
 # Define server logic required to draw a histogram
-server <- function(input, output, session) {
-  assets = eventReactive(input$team_1,get_assets(
+server <- function(input, output) {
+  assets = eventReactive(c(input$team_1,input$min_player_value),get_assets(
       get_team_id_by_team_name(input$team_1),
       as.numeric(input$min_player_value)
     ) %>% 
     select(position, player_name, team_nfl, value)
     )
   
-  output$full_team = renderTable(assets()
-  )
-  output$qb_value = renderText(
+  qb_val = eventReactive(
+    c(input$team_1,input$min_player_value),
     get_total_by_position("QB",assets())$total
   )
-  output$rb_value = renderText(
-    get_total_by_position("RB", assets())$total
+  rb_val = eventReactive(
+    c(input$team_1,input$min_player_value),
+    get_total_by_position("RB",assets())$total
   )
-  output$wr_value = renderText(
-    get_total_by_position("WR", assets())$total
+  wr_val = eventReactive(
+    c(input$team_1,input$min_player_value),
+    get_total_by_position("WR",assets())$total
   )
-  output$te_value = renderText(
-    get_total_by_position("TE", assets())$total
+  te_val = eventReactive(
+    c(input$team_1,input$min_player_value),
+    get_total_by_position("TE",assets())$total
   )
+  
+  output$full_team = renderTable(assets())
+  output$qb_value = renderText(qb_val())
+  output$rb_value = renderText(rb_val())
+  output$wr_value = renderText(wr_val())
+  output$te_value = renderText(te_val())
 }
 
 # Run the application 
