@@ -10,7 +10,7 @@
 library(shiny)
 library(tidyverse)
 library(dplyr)
-library(fmsb)
+library(ggradar)
 
 
 # Define UI for application that draws a histogram
@@ -25,7 +25,9 @@ ui <- fluidPage(
   textOutput("qb_value"),
   textOutput("rb_value"),
   textOutput("wr_value"),
-  textOutput("te_value")
+  textOutput("te_value"),
+  plotOutput("value_plot"),
+  tableOutput("value_table")
  )
 
 
@@ -41,27 +43,39 @@ server <- function(input, output) {
   
   qb_val = eventReactive(
     c(input$team_1,input$min_player_value),
-    get_total_by_position("QB",assets())$total
+    get_total_by_position("QB",assets())
   )
   rb_val = eventReactive(
     c(input$team_1,input$min_player_value),
-    get_total_by_position("RB",assets())$total
+    get_total_by_position("RB",assets())
   )
   wr_val = eventReactive(
     c(input$team_1,input$min_player_value),
-    get_total_by_position("WR",assets())$total
+    get_total_by_position("WR",assets())
   )
   te_val = eventReactive(
     c(input$team_1,input$min_player_value),
-    get_total_by_position("TE",assets())$total
+    get_total_by_position("TE",assets())
+  )
+  output$value_table = renderTable(
+    data.frame(rbind(cbind(input$team_1, qb_val()), cbind(input$team_1, rb_val()), cbind(input$team_1, wr_val()), cbind(input$team_1, te_val()))) %>%
+     pivot_wider(names_from = position, values_from = total)
+  )
+  output$value_plot = renderPlot(
+    data.frame(rbind(cbind(input$team_1, qb_val()), cbind(input$team_1, rb_val()), cbind(input$team_1, wr_val()), cbind(input$team_1, te_val()))) %>% 
+      pivot_wider(names_from = position, values_from = total) %>%
+      ggradar(
+        grid.max = 4000
+      )
   )
   
   output$full_team = renderTable(assets())
-  output$qb_value = renderText(qb_val())
-  output$rb_value = renderText(rb_val())
-  output$wr_value = renderText(wr_val())
-  output$te_value = renderText(te_val())
+  output$qb_value = renderText(qb_val()$total)
+  output$rb_value = renderText(rb_val()$total)
+  output$wr_value = renderText(wr_val()$total)
+  output$te_value = renderText(te_val()$total)
 }
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
