@@ -17,14 +17,22 @@ library(dplyr)
 ui <- fluidPage(
   
   titlePanel("League Report for Team: "),
-  textOutput("team_id")
+  selectInput("team_1","TEAM ONE", get_team_names()$team_name, get_current_users_team()),
+  textInput("min_player_value","MIN PLAYER VALUE", value = 100),
+  tableOutput("full_team")
  )
 
 
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
- output$team_id = renderText({get_roster_by_player_id(10001)})
+  output$full_team = renderTable(
+      get_assets(
+          get_team_id_by_team_name(input$team_1),
+          as.numeric(input$min_player_value)
+        ) %>% 
+        select(position, player_name, team_nfl, value)
+      )
 }
 
 # Run the application 

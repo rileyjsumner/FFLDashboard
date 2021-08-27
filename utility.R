@@ -38,3 +38,24 @@ get_full_roster_data <- function(id){
   df3 = get_full_roster_values(id)
   return(merge(df2,df3))
 }
+
+get_team_names <- function(){
+  return(teams %>%
+           select(team_id, team_name))
+}
+
+get_team_name_by_id <- function(id){
+  df = filter(teams,team_id == id) %>%
+    select(team_name)
+  return(df$team_name)
+}
+
+get_team_id_by_team_name <- function(name){
+  df = filter(teams,team_name == name) %>%
+    select(team_id)
+  return(df$team_id)
+}
+
+get_current_users_team <- function(){
+  return(filter(teams, is_user))
+}
