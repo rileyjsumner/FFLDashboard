@@ -31,49 +31,27 @@ ui <- fluidPage(
 
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
-  output$full_team = renderTable(
-      get_assets(
-          get_team_id_by_team_name(input$team_1),
-          as.numeric(input$min_player_value)
-        ) %>% 
-        select(position, player_name, team_nfl, value)
-      )
+server <- function(input, output, session) {
+  assets = eventReactive(input$team_1,get_assets(
+      get_team_id_by_team_name(input$team_1),
+      as.numeric(input$min_player_value)
+    ) %>% 
+    select(position, player_name, team_nfl, value)
+    )
+  
+  output$full_team = renderTable(assets()
+  )
   output$qb_value = renderText(
-              get_total_by_position("QB",
-                get_assets(
-                  get_team_id_by_team_name(input$team_1),
-                  as.numeric(input$min_player_value)
-                ) %>% 
-                  select(position, player_name, team_nfl, value)
-                )$total
+    get_total_by_position("QB",assets())$total
   )
   output$rb_value = renderText(
-    get_total_by_position("RB",
-                          get_assets(
-                            get_team_id_by_team_name(input$team_1),
-                            as.numeric(input$min_player_value)
-                          ) %>% 
-                            select(position, player_name, team_nfl, value)
-    )$total
+    get_total_by_position("RB", assets())$total
   )
   output$wr_value = renderText(
-    get_total_by_position("WR",
-                          get_assets(
-                            get_team_id_by_team_name(input$team_1),
-                            as.numeric(input$min_player_value)
-                          ) %>% 
-                            select(position, player_name, team_nfl, value)
-    )$total
+    get_total_by_position("WR", assets())$total
   )
   output$te_value = renderText(
-    get_total_by_position("TE",
-                          get_assets(
-                            get_team_id_by_team_name(input$team_1),
-                            as.numeric(input$min_player_value)
-                          ) %>% 
-                            select(position, player_name, team_nfl, value)
-    )$total
+    get_total_by_position("TE", assets())$total
   )
 }
 
