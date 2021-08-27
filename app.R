@@ -10,6 +10,7 @@
 library(shiny)
 library(tidyverse)
 library(dplyr)
+library(fmsb)
 
 
 # Define UI for application that draws a histogram
@@ -19,7 +20,12 @@ ui <- fluidPage(
   titlePanel("League Report for Team: "),
   selectInput("team_1","TEAM ONE", get_team_names()$team_name, get_current_users_team()),
   textInput("min_player_value","MIN PLAYER VALUE", value = 100),
-  tableOutput("full_team")
+  tableOutput("full_team"),
+  verbatimTextOutput("Total Team Value"),
+  textOutput("qb_value"),
+  textOutput("rb_value"),
+  textOutput("wr_value"),
+  textOutput("te_value")
  )
 
 
@@ -33,6 +39,15 @@ server <- function(input, output) {
         ) %>% 
         select(position, player_name, team_nfl, value)
       )
+  output$qb_value = renderText(
+              get_total_by_position("QB",
+                get_assets(
+                  get_team_id_by_team_name(input$team_1),
+                  as.numeric(input$min_player_value)
+                ) %>% 
+                  select(position, player_name, team_nfl, value)
+                )$total
+  )
 }
 
 # Run the application 
