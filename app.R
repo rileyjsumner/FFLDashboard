@@ -48,6 +48,33 @@ server <- function(input, output) {
                   select(position, player_name, team_nfl, value)
                 )$total
   )
+  output$rb_value = renderText(
+    get_total_by_position("RB",
+                          get_assets(
+                            get_team_id_by_team_name(input$team_1),
+                            as.numeric(input$min_player_value)
+                          ) %>% 
+                            select(position, player_name, team_nfl, value)
+    )$total
+  )
+  output$wr_value = renderText(
+    get_total_by_position("WR",
+                          get_assets(
+                            get_team_id_by_team_name(input$team_1),
+                            as.numeric(input$min_player_value)
+                          ) %>% 
+                            select(position, player_name, team_nfl, value)
+    )$total
+  )
+  output$te_value = renderText(
+    get_total_by_position("TE",
+                          get_assets(
+                            get_team_id_by_team_name(input$team_1),
+                            as.numeric(input$min_player_value)
+                          ) %>% 
+                            select(position, player_name, team_nfl, value)
+    )$total
+  )
 }
 
 # Run the application 
