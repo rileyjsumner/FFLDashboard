@@ -11,6 +11,7 @@ library(shiny)
 library(tidyverse)
 library(dplyr)
 library(ggradar)
+library(rjson)
 
 
 # Define UI for application that draws a histogram
@@ -38,7 +39,8 @@ server <- function(input, output) {
       get_team_id_by_team_name(input$team_1),
       as.numeric(input$min_player_value)
     ) %>% 
-    select(position, player_name, team_nfl, value)
+        select(position, player_name, team_nfl, value) %>%
+    arrange(position, desc(value))
     )
   
   qb_val = eventReactive(
