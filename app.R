@@ -22,7 +22,7 @@ ui <- fluidPage(
   textInput("min_player_value","MIN PLAYER VALUE", value = 100),
   splitLayout(
       selectInput("team_1","TEAM ONE", get_team_names()$team_name, get_current_users_team()),
-      selectInput("team_2","TEAM TWO", get_team_names()$team_name, get_current_users_team())
+      selectInput("team_2","TEAM TWO", get_team_names()$team_name, get_team_names()$team_name[2])
   ),
   splitLayout(
       tableOutput("full_team_one"),
@@ -87,56 +87,42 @@ server <- function(input, output) {
   )
   
   output$value_table = renderTable(
-      data.frame(
-      rbind(
-          cbind(input$team_1, qb_val_t1()), 
-          cbind(input$team_1, rb_val_t1()), 
-          cbind(input$team_1, wr_val_t1()), 
-          cbind(input$team_1, te_val_t1())
-      ),
-      rbind(
-          cbind(input$team_2, qb_val_t2()), 
-          cbind(input$team_2, rb_val_t2()), 
-          cbind(input$team_2, wr_val_t2()), 
-          cbind(input$team_2, te_val_t2())
-      )  %>%
-          pivot_longer(input.team_1,input.team_2)
-  ))
-  
-  output$value_table_t1 = eventReactive(
-      c(input$team_1, input$min_player_value),
-      data.frame(
+      render_plot_data(
           rbind(
-              cbind(input$team_1, qb_val_t1()), 
-              cbind(input$team_1, rb_val_t1()), 
-              cbind(input$team_1, wr_val_t1()), 
-              cbind(input$team_1, te_val_t1())
-          )
-      )
-  )
-  output$value_table_t2 = eventReactive(
-      c(input$team_2, input$min_player_value),
-      data.frame(
+              cbind(team = input$team_1, qb_val_t1()), 
+              cbind(team = input$team_1, rb_val_t1()), 
+              cbind(team = input$team_1, wr_val_t1()), 
+              cbind(team = input$team_1, te_val_t1())
+          ),
           rbind(
-              cbind(input$team_2, qb_val_t1()), 
-              cbind(input$team_2, rb_val_t1()), 
-              cbind(input$team_2, wr_val_t1()), 
-              cbind(input$team_2, te_val_t1())
+              cbind(team = input$team_2, qb_val_t2()), 
+              cbind(team = input$team_2, rb_val_t2()), 
+              cbind(team = input$team_2, wr_val_t2()), 
+              cbind(team = input$team_2, te_val_t2())
           )
       )
   )
   output$value_plot = renderPlot(
-    data.frame(
-        rbind(
-            cbind(input$team_1, qb_val_t1()), 
-            cbind(input$team_1, rb_val_t1()), 
-            cbind(input$team_1, wr_val_t1()), 
-            cbind(input$team_1, te_val_t1())
-        )
-    ) %>% 
+      render_plot_data(
+          rbind(
+              cbind(team = input$team_1, qb_val_t1()), 
+              cbind(team = input$team_1, rb_val_t1()), 
+              cbind(team = input$team_1, wr_val_t1()), 
+              cbind(team = input$team_1, te_val_t1())
+          ),
+          rbind(
+              cbind(team = input$team_2, qb_val_t2()), 
+              cbind(team = input$team_2, rb_val_t2()), 
+              cbind(team = input$team_2, wr_val_t2()), 
+              cbind(team = input$team_2, te_val_t2())
+          )
+      ) %>% 
       pivot_wider(names_from = position, values_from = total) %>%
       ggradar(
-        grid.max = 4000
+        values.radar = c("0","2000", "4000"),
+        grid.max = 4000,
+        grid.min = 0,
+        grid.mid = 2000
       )
   )
   

@@ -9,3 +9,7 @@ get_total_by_position <- function(pos,player_list){
            group_by(position) %>%
            summarize(total = sum(value)))
 }
+
+render_plot_data <- function(team_1_data, team_2_data) {
+  return(data.frame(rbind(team_1_data, team_2_data)))
+}
