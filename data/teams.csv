@@ -1,13 +1,13 @@
-team_id,team_name,team_manager,is_user
-1,team_a,manager_a,TRUE
-2,team_b,manager_b,FALSE
-3,team_c,manager_c,FALSE
-4,team_d,manager_d,FALSE
-5,team_e,manager_e,FALSE
-6,team_f,manager_f,FALSE
-7,team_g,manager_g,FALSE
-8,team_h,manager_h,FALSE
-9,team_i,manager_i,FALSE
-10,team_j,manager_j,FALSE
-11,team_k,manager_k,FALSE
-12,team_l,manager_l,FALSE
+team_id,team_name,team_manager,is_user,league_id
+1,Cultivating Mass,Josh Sumner,TRUE,1
+2,Picnic Spirits,Jason Schmit,FALSE,1
+3,Rum Ham,Riley Sumner,FALSE,1
+4,Gushin' Grannies,Nate VanDuren,FALSE,1
+5,The King Slayer,Jess Porter,FALSE,1
+6,Boxes Full Pepe,Jason Herron,FALSE,1
+7,Mythic Quest: Badass Banquet,Rykken Young,FALSE,1
+8,Lo Bros FTW,Collin & Adam Lo,FALSE,1
+9,King in the North,Johnathan Brockopp,FALSE,1
+10,More Than a Thielen,Jordan Brockopp,FALSE,1
+11,Turn Your Head and Goff,Ryan Rassatt,FALSE,1
+12,Came to Conquer,Pat Gornick,FALSE,1
