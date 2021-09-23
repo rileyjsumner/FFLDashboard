@@ -18,21 +18,31 @@ library(rjson)
 
 ui <- fluidPage(
   
-  titlePanel("League Report for Team: "),
-  textInput("min_player_value","MIN PLAYER VALUE", value = 100),
-  splitLayout(
+  titlePanel("League Report for Team"),
+  #this is where the tabsetPanel stuff goes  
+  
+  sidebarLayout(
+    sidebarPanel(
+      textInput("min_player_value","MIN PLAYER VALUE", value = 100),
+      br(),
       selectInput("team_1","TEAM ONE", get_team_names()$team_name, get_current_users_team()),
       selectInput("team_2","TEAM TWO", get_team_names()$team_name, get_team_names()$team_name[2])
-  ),
-  splitLayout(
-      tableOutput("full_team_one"),
-      tableOutput("full_team_two")
-  ),
-  tableOutput("value_table"),
-  plotOutput("value_plot")
- )
-
-
+    ),
+    mainPanel(
+      tabsetPanel(type = "tabs",
+                  tabPanel("Teams",
+                      splitLayout(
+                          tableOutput("full_team_one"),
+                          tableOutput("full_team_two")
+                      )),
+                  tabPanel("Values",
+                       tableOutput("value_table"),
+                        plotOutput("value_plot")
+                      )
+                  )
+               )
+  )
+)
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {

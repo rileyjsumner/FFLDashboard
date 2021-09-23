@@ -5,6 +5,12 @@ get_assets <- function(roster_id,min_value){
 }
 
 get_total_by_position <- function(pos,player_list){
+  # DO STUFF HEREx
+  if(FALSE) {
+    return(data.frame(
+      
+    ))
+  }
   return(filter(player_list, position == pos) %>%
            group_by(position) %>%
            summarize(total = sum(value)))
