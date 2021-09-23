@@ -30,14 +30,11 @@ ui <- fluidPage(
     ),
     mainPanel(
       tabsetPanel(type = "tabs",
-                  tabPanel("Teams",
-                      splitLayout(
-                          tableOutput("full_team_one"),
-                          tableOutput("full_team_two")
-                      )),
+                  tabPanel("Team One",tableOutput("full_team_one")),
+                  tabPanel("Team Two",tableOutput("full_team_two")),
                   tabPanel("Values",
-                       tableOutput("value_table"),
-                        plotOutput("value_plot")
+                           tableOutput("value_table"),
+                           plotOutput("value_plot")
                       )
                   )
                )
