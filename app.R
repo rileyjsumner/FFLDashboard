@@ -19,8 +19,6 @@ library(rjson)
 ui <- fluidPage(
   
   titlePanel("League Report for Team"),
-  #this is where the tabsetPanel stuff goes  
-  
   sidebarLayout(
     sidebarPanel(
       textInput("min_player_value","MIN PLAYER VALUE", value = 100),
@@ -47,7 +45,7 @@ server <- function(input, output) {
       get_team_id_by_team_name(input$team_1),
       as.numeric(input$min_player_value)
     ) %>% 
-        select(position, player_name, team_nfl, value) %>%
+        select(position, player_name, team_nfl, value, birthdate) %>%
     arrange(position, desc(value))
     )
   
@@ -55,7 +53,7 @@ server <- function(input, output) {
       get_team_id_by_team_name(input$team_2),
       as.numeric(input$min_player_value)
   ) %>% 
-      select(position, player_name, team_nfl, value) %>%
+      select(position, player_name, team_nfl, value, birthdate) %>%
       arrange(position, desc(value))
   )
   

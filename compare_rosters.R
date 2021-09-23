@@ -1,7 +1,7 @@
 get_assets <- function(roster_id,min_value){
   df = get_full_roster_data(roster_id)
   return(filter(df,value >= min_value) %>%
-         select(player_id,player_name,position,team_nfl,value))
+         select(player_id,player_name,position,team_nfl,value,birthdate))
 }
 
 get_total_by_position <- function(pos,player_list){
@@ -19,3 +19,4 @@ get_total_by_position <- function(pos,player_list){
 render_plot_data <- function(team_1_data, team_2_data) {
   return(data.frame(rbind(team_1_data, team_2_data)))
 }
+
