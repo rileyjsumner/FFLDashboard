@@ -12,6 +12,7 @@ library(tidyverse)
 library(dplyr)
 library(ggradar)
 library(rjson)
+library(lubridate)
 
 
 # Define UI for application that draws a histogram
@@ -28,8 +29,10 @@ ui <- fluidPage(
     ),
     mainPanel(
       tabsetPanel(type = "tabs",
-                  tabPanel("Team One",tableOutput("full_team_one")),
-                  tabPanel("Team Two",tableOutput("full_team_two")),
+                  tabPanel("Team One",tableOutput("full_team_one"),
+                           textOutput("team_subtotal_one")),
+                  tabPanel("Team Two",tableOutput("full_team_two"),
+                           textOutput("team_subtotal_two")),
                   tabPanel("Values",
                            tableOutput("value_table"),
                            plotOutput("value_plot")
@@ -45,18 +48,21 @@ server <- function(input, output) {
       get_team_id_by_team_name(input$team_1),
       as.numeric(input$min_player_value)
     ) %>% 
-        select(position, player_name, team_nfl, value, birthdate) %>%
+        select(position, player_name, team_nfl, age, value) %>%
+      mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
     arrange(position, desc(value))
     )
+
   
   assets_t2 = eventReactive(c(input$team_2,input$min_player_value),get_assets(
       get_team_id_by_team_name(input$team_2),
       as.numeric(input$min_player_value)
   ) %>% 
-      select(position, player_name, team_nfl, value, birthdate) %>%
+      select(position, player_name, team_nfl, age, value) %>%
+      mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
       arrange(position, desc(value))
   )
-  
+
   qb_val_t1 = eventReactive(
     c(input$team_1,input$min_player_value),
     get_total_by_position("QB",assets_t1())
@@ -133,6 +139,8 @@ server <- function(input, output) {
   
   output$full_team_one = renderTable(assets_t1())
   output$full_team_two = renderTable(assets_t2())
+  output$team_subtotal_one = renderText(sum(assets_t1()$value))
+  output$team_subtotal_two = renderText(sum(assets_t2()$value))
 
 }
 

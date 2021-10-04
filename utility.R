@@ -59,3 +59,14 @@ get_team_id_by_team_name <- function(name){
 get_current_users_team <- function(){
   return(filter(teams, is_user))
 }
+
+
+calc_dynasty_value <- function(position,value,age){
+  age_multiplier <- 
+    ifelse(position == "QB",1.25,
+         ifelse(position == "RB",0.75,
+                ifelse(position == "WR",2,
+                       ifelse(position == "TE",3,99))))
+    return((value * age_multiplier) + age)
+  }
+
