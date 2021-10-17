@@ -49,8 +49,9 @@ server <- function(input, output) {
       as.numeric(input$min_player_value)
     ) %>% 
         select(position, player_name, team_nfl, age, value) %>%
-      mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
-    arrange(position, desc(value))
+        mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
+      mutate(dynasty_value_3yr = calc_dynasty_value_threeyr(position,value,age))%>%
+        arrange(position, desc(value))
     )
 
   
@@ -60,6 +61,7 @@ server <- function(input, output) {
   ) %>% 
       select(position, player_name, team_nfl, age, value) %>%
       mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
+     mutate(dynasty_value_3yr = calc_dynasty_value_threeyr(position,value,age))%>%
       arrange(position, desc(value))
   )
 

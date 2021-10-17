@@ -70,3 +70,20 @@ calc_dynasty_value <- function(position,value,age){
     return((value * age_multiplier) + age)
   }
 
+calc_dynasty_value_threeyr <- function(position,value,age){
+  age_multiplier_threeyr <-
+    ifelse(position == "QB" & age < 30, 3.5,
+           ifelse(position == "QB" & age < 33, 3,
+                  ifelse(position == "QB" & age >= 33, 2,
+                         ifelse(position == "RB" & age < 23, 3.2,
+                                ifelse(position == "RB" & age < 25, 3,
+                                       ifelse(position == "RB" & age >= 25, 2,
+                                              ifelse(position == "WR" & age < 26, 3.5,
+                                                     ifelse(position == "WR" & age < 28, 3,
+                                                            ifelse(position == "WR" & age >= 28, 2,
+                                                                   ifelse(position == "TE" & age < 27, 3.2,
+                                                                          ifelse(position == "TE" & age < 31, 2.8,
+                                                                                 ifelse(position == "TE" & age >= 31, 2.5,0))))))))))))
+  return((value * age_multiplier_threeyr))
+}
+
