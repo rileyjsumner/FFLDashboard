@@ -29,17 +29,17 @@ ui <- fluidPage(
     ),
     mainPanel(
       tabsetPanel(type = "tabs",
-                  tabPanel("Team One",tableOutput("full_team_one"),
-                           textOutput("team_subtotal_one")),
-                  tabPanel("Team Two",tableOutput("full_team_two"),
-                           textOutput("team_subtotal_two")),
-                  tabPanel("Values",
-                           tableOutput("value_table"),
-                           plotOutput("value_plot")
-                      )
-                  )
-               )
-  )
+          tabPanel("Team One",tableOutput("full_team_one"),
+                   textOutput("team_subtotal_one")),
+          tabPanel("Team Two",tableOutput("full_team_two"),
+                   textOutput("team_subtotal_two")),
+          tabPanel("Values",
+                   tableOutput("value_table"),
+                   plotOutput("value_plot")
+              )
+          )
+       )
+    )
 )
 
 # Define server logic required to draw a histogram
@@ -48,10 +48,10 @@ server <- function(input, output) {
       get_team_id_by_team_name(input$team_1),
       as.numeric(input$min_player_value)
     ) %>% 
-        select(position, player_name, team_nfl, age, value) %>%
-        mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
+      select(position, player_name, team_nfl, age, value) %>%
+      mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
       mutate(dynasty_value_3yr = calc_dynasty_value_threeyr(position,value,age))%>%
-        arrange(position, desc(value))
+      arrange(position, desc(value))
     )
 
   
@@ -61,7 +61,7 @@ server <- function(input, output) {
   ) %>% 
       select(position, player_name, team_nfl, age, value) %>%
       mutate(dynasty_value = calc_dynasty_value(position,value,age))%>%
-     mutate(dynasty_value_3yr = calc_dynasty_value_threeyr(position,value,age))%>%
+      mutate(dynasty_value_3yr = calc_dynasty_value_threeyr(position,value,age))%>%
       arrange(position, desc(value))
   )
 

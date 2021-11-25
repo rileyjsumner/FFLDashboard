@@ -22,7 +22,7 @@ get_full_roster_values <- function(roster_id) {
 
 get_player_name_by_id <- function(id) {
   df = filter(players, player_id == id) %>%
-    select(player_name)
+      select(player_name)
   return(df$player_name)
 }
 
@@ -40,19 +40,18 @@ get_full_roster_data <- function(id){
 }
 
 get_team_names <- function(){
-  return(teams %>%
-           select(team_id, team_name))
+  return(teams %>% select(team_id, team_name))
 }
 
 get_team_name_by_id <- function(id){
   df = filter(teams,team_id == id) %>%
-    select(team_name)
+      select(team_name)
   return(df$team_name)
 }
 
 get_team_id_by_team_name <- function(name){
   df = filter(teams,team_name == name) %>%
-    select(team_id)
+      select(team_id)
   return(df$team_id)
 }
 
@@ -63,10 +62,10 @@ get_current_users_team <- function(){
 
 calc_dynasty_value <- function(position,value,age){
   age_multiplier <- 
-    ifelse(position == "QB",1.25,
-         ifelse(position == "RB",0.75,
-                ifelse(position == "WR",2,
-                       ifelse(position == "TE",3,99))))
+    ifelse(position == "QB", 1.25,
+         ifelse(position == "RB", 0.75,
+                ifelse(position == "WR", 2,
+                       ifelse(position == "TE", 3, 99))))
     return((value * age_multiplier) + age)
   }
 
